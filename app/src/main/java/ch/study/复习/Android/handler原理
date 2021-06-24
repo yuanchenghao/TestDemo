@@ -1,0 +1,40 @@
+Handler 主要作用：
+
+子线程将 Message 对象发送给主线程，主线程接收并进行处理。在这个过程中涉及到三个对象：
+
+Message:
+
+消息对象，主要是把子线程绑定的数据携带到主线程
+
+MessageQueue:
+
+消息队列，主要是接收子线程发过来的 Message 对象
+
+Looper:
+
+消息轮循器，主要是从 MessageQueue 中取出 Message 对象交给 Handler 执行
+
+源码解析：
+
+首先，在 ActivityThread 中的 main 方法里面会调用 Looper.prepareMainLooper
+方法，紧接着会调用 Looper 的 prepare 方法，在这个方法里面会创建主线程的 Looper 对象
+存放到 sThreadLocal 里面，(sThreadLocal
+是一个线程内部的存储类，可以指定线程内存储数据，数据存储以后只有指定的线程可以得到存储的数据)
+在创建 Looper 的同时也创建了主线程的消息队列 MessageQueue
+
+其次在 Activity 里面创建 Handler 的时候，在 Handler 的构造方法里面会调用 mLooper
+= Looper.myLooper() 方法，这个方法里面又调了 sThreadLocal.get() 主要是从
+sThreadLocal 里面拿到当前线程的 Looper 对象 紧接着又调用 mQueue =
+mLooper.mQueue 取出 MessageQueue(说明一个线程对应一个 Looper 和 MessageQueue)
+
+最后在使用 Handler 发送消息的时候，Handler 有很多发送消息的方法，但最终都会调到
+enqueueMessage 这个方法，这个方法呢首先会执行 msg.target = this 给消息里面
+Handler 类型的 target 赋值，然后会调用 queue.enqueueMessage(msg,
+uptimeMillis) 将消息放入消息队列，并把当前的消息赋值给 MessageQueue 的成员变量
+
+当消息消费的时候会通过 ActivityThread 的 main 方法里面的 Looper.loop() 首先 通过
+Looper me = myLooper() 获取 Looper 对象，紧接着调用 MessageQueue queue =
+me.mQueue 获取到消息队列，然后通过 Message msg = queue.next()
+从消息队列里面取出消息，最后调用 msg.target.dispatchMessage(msg) 方法调用
+Handler 中的方法将消息进行分发这个方法呢最终会回调 Activity 里面的
+handleMessage(msg)

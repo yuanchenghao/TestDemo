@@ -1,0 +1,33 @@
+apply from: 'ymconfig.gradle'
+buildscript {
+    ext.kotlin_version = "1.3.72"
+    repositories {
+        google()
+        jcenter()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven {url 'https://dl.bintray.com/jetbrains/anko'}//Could not resolve all files for configuration ':app:debugCompileClasspath'.解决方案
+        maven { url "https://maven.google.com" }
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:4.1.3"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven {url 'https://dl.bintray.com/jetbrains/anko'}//Could not resolve all files for configuration ':app:debugCompileClasspath'.解决方案
+        maven { url "https://maven.google.com" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

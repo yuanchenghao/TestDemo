@@ -1,0 +1,46 @@
+## Android 系统架构
+Android 系统架构分为五层，从上到下依次是应用层、应用架构层、系统运行库层、硬件抽象层和
+Linux 内核层
+
+## Android 系统启动流程
+#### 1.启动电源以及系统启动
+当电源按下时引导芯片代码从预定义的地方（固话在ROM）开始执行。加载引导程序 BootLoader
+到 RAM，然后执行。
+
+#### 2.引导程序 BootLoader
+引导程序 BootLoader 是在 Android 操作系统开始运行前的一个程序，它的主要作用是把 OS
+拉起来运行。
+
+#### 3.Linux 内核启动
+当内核启动时，设置缓存、被保护储存器、计划列表、加载驱动。当内核完成系统设置时，它首先系统文件中寻找
+init.rc 文件，并启动 init 进程
+
+#### 4. init 进程启动
+init 进程启动做了很多的工作，总的来说主要做了一下三件事：
+
+1. 创建和挂载启动所需的文件目录。
+2. 初始化和启动属性服务。
+3. 解析 init.rc 配置文件并启动 Zygote 进程。
+
+#### 5. Zygote 进程启动
+Zygote 进程共做了如下几件事：
+
+1. 创建 AppRuntime 并调用其 start 方法，启动 Zygote 进程。
+2. 创建 Java 虚拟机并为 Java 虚拟机注册 JNI 方法。
+3. 通过 JNI 调用 ZygoteInit 的 main 函数进入 Zygote 的 Java 框架层。
+4. 通过 registerZygoteSocket 方法创建服务端 Socket，并通过 runSelectLoop
+   方法等待 AMS 的请求来创建新的应用程序进程。
+5. 启动 SystemServer 进程。
+
+#### 6.SystemServer 进程启动
+SystemServer 进程被创建后，主要做了如下工作：
+
+1. 启动 Binder 线程池，这样就可以与其他进程进行通信。
+2. 创建 SystemServiceManager，其用于系统的服务进行创建、启动和生命周期管理。
+3. 启动各种系统服务
+
+#### 7.Launcher 启动
+被 SystemServer 进程启动的 AMS 会启动
+Launcher，Launcher启动后会将已安装应用的快捷图标显示到界面上。
+
+![image](https://blog.csdn.net/teleger/article/details/98452866)
