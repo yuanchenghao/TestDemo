@@ -28,7 +28,7 @@ import java.util.Map;
 //        输出：[0,1]
 
 
-class _1两数之后_easy {
+class _01两数之后_easy {
     //暴力遍历 时间复杂度O(N^2)
     public int[] twoSum(int[] nums, int target) {
         for (int i = 0; i < nums.length; i++) {
