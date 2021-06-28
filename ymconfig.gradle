@@ -18,7 +18,7 @@ ext{
     appId = ["app"     : "ch.study.ch",
              "lib_http"   : "ch.study.ch.lib_http"]
 
-    supportLibrary = "30.0.1"
+    supportLibrary = "30.0.2"
     dependencies = [
             // ${supportLibrary}表示引用一个变量
             "appcompat"      : "com.androidx.support:appcompat-v7:${supportLibrary}",
