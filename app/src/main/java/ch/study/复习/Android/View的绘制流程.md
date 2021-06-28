@@ -1,7 +1,8 @@
 #### 一、在绘制View之前顺便提下setContentView(int resId)的一个过程
 
 setContentView(int resId)是将Activity的布局文件显示在屏幕上，这个过程可以简述如下：
-1. 在Activity.setContentView(int resId)中调用PhoneWindow.setContentView(int resId)，在其中，如果是第一次调用，那么需要安装DecorView和初始化mContentParent；否则，清空mContentParent中的内容。然后将资源文件通过LayoutInflater的inflate方法来将其转换为View树，并将其添加到mContentParent中。
+1. 在Activity.setContentView(int resId)中调用PhoneWindow.setContentView(int resId)，在其中，如果是第一次调用，那么需要安装DecorView和初始化mContentParent；
+否则，清空mContentParent中的内容。然后将资源文件通过LayoutInflater的inflate方法来将其转换为View树，并将其添加到mContentParent中。
 2. 在将资源文件添加到mContentParent中之前，还有一些布局步骤：（由DecorView来完成）确定窗口类型，既是否有标题栏等等；
 
 选择窗口风格对应的布局文件
