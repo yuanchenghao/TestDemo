@@ -2,7 +2,7 @@ package ch.study.ch
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
+//https://juejin.cn/post/6978833860284907527
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
